@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard de Entregas - GNSN</title>
+    <!-- Tailwind para o design moderno -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js para os gráficos -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+    <!-- Bootstrap 5 (O que o ja tava no código ) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+    <!-- Navbar -->
+    <nav class="bg-blue-800 text-white p-4 shadow-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-xl font-bold">GNSN - Sistema de Gestão</h1>
+            <span class="text-sm opacity-80">Relatório de Fardamento v2.0</span>
+        </div>
+    </nav>
+<body>
+    <div class="container-fluid">
+        <br> 
+        <!-- Painel superior com totais -->
+        <div class="row">
+            <div class="col-md-6">
+<div class="bg-gray-50 rounded-xl p-4 border border-gray-100">
+    <p class="text-xs text-gray-500 mb-1 uppercase font-bold">Total de membros que receberam</p>
+    <p class="text-2xl font-semibold text-gray-900">145</p>
+    <p class="text-xs text-gray-400 mt-1">71% da corporação</p>
+</div>
+            </div>
+            <div class="col-md-6">
+                <div class="alert alert-info text-center">
+                    <h5>Total de Camisas entregues</h5>
+                    <p class="fs-4"><strong>290</strong></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Container dos gráficos -->
+        <div id="graficosContainer" class="d-flex flex-wrap gap-3 justify-content-start"></div>
+    </div>
+
+    <!-- Scripts Originais -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+
+    <script>
+        // Dados simulados exatamente como o Django enviaria
+        const geralData = {
+            recebidos_guardas: 145,
+            nao_recebidos_guardas: 55,
+            total_guardas: 200
+        };
+
+        const equipesData = [
+            { equipe: "Alpha", recebidos_guardas: 40, nao_recebidos_guardas: 10, total_guardas: 50, cor: '#4caf50' },
+            { equipe: "Bravo", recebidos_guardas: 35, nao_recebidos_guardas: 15, total_guardas: 50, cor: '#2196f3' }
+        ];
+
+        // Função para calcular percentual
+        function calcularPercentual(recebidos, total) {
+            return total === 0 ? "0%" : ((recebidos / total) * 100).toFixed(1) + "%";
+        }
+
+        // Configuração padrão para gráficos de pizza
+        function configPie(labels, data, colors, percentual) {
+            return {
+                type: 'pie',
+                data: { labels, datasets: [{ data, backgroundColor: colors }] },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom' },
+                        datalabels: {
+                            color: '#fff',
+                            font: { weight: 'bold', size: 12 },
+                            formatter: function(value, ctx) {
+                                const total = ctx.chart.data.datasets[0].data.reduce((a,b)=>a+b,0);
+                                const pct = ((value/total)*100).toFixed(1) + "%";
+                                return value + "\n" + pct;
+                            }
+                        },
+                        title: { display: true, text: percentual, font: { size: 14, weight: 'bold' } }
+                    }
+                },
+                plugins: [ChartDataLabels]
+            };
+        }
+
+        const container = document.getElementById("graficosContainer");
+
+        // --- Gráfico Geral ---
+        const divGeral = document.createElement("div");
+        divGeral.classList.add("p-2", "border", "rounded", "text-center");
+        divGeral.style.width = "260px";
+        divGeral.style.height = "260px";
+        divGeral.innerHTML = `<h6>Geral</h6><div style="width:100%; height:200px;"><canvas id="graficoGeral"></canvas></div>`;
+        container.appendChild(divGeral);
+
+        new Chart(document.getElementById('graficoGeral').getContext('2d'), configPie(
+            ['Recebidos', 'Não Recebidos'],
+            [geralData.recebidos_guardas, geralData.nao_rece_guardas || geralData.nao_recebidos_guardas],
+            ['#4caf50', '#f44336'],
+            `Recebidos: ${geralData.recebidos_guardas} / Total: ${geralData.total_guardas} (${calcularPercentual(geralData.recebidos_guardas, geralData.total_guardas)})`
+        ));
+
+        // --- Gráficos por equipe ---
+        equipesData.forEach(e => {
+            const div = document.createElement("div");
+            div.classList.add("p-2", "border", "rounded", "text-center");
+            div.style.width = "260px";
+            div.style.height = "260px";
+            div.innerHTML = `<h6>${e.equipe}</h6><div style="width:100%; height:200px;"><canvas id="grafico_${e.equipe}"></canvas></div>`;
+            container.appendChild(div);
+
+            new Chart(div.querySelector("canvas").getContext("2d"), configPie(
+                ['Recebidos', 'Não Recebidos'],
+                [e.recebidos_guardas, e.nao_recebidos_guardas],
+                [e.cor, '#e6e6e6'],
+                `Recebidos: ${e.recebidos_guardas} / Total: ${e.total_guardas} (${calcularPercentual(e.recebidos_guardas, e.total_guardas)})`
+            ));
+        });
+
+        // Comentei o reload para não atrapalhar o trabalho local
+        // [setTimeout(() => location.reload(), 30000);
+    </script>
+</body>
+</html>
