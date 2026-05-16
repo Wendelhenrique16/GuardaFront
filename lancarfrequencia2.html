@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>GNSN - Administrador - Lançar Frequência</title>
+</head>
+<body class="bg-[#f4f4f4] font-sans">
+
+    <nav class="bg-[#d22f27] text-white p-3 shadow-md">
+        <div class="container mx-auto flex justify-between items-center px-4">
+            <div class="flex items-center gap-3">
+                <img src="logo.png" class="h-6" alt="Logo">
+                <span class=" text-lg  tracking-tighter">Guarda Mirim</span>
+                <div class="hidden md:flex gap-4 ml-6 text-xs font-bold opacity-90 uppercase">
+                    <span class="hover:opacity-100 cursor-pointer">Painel</span>
+                    <span class="hover:opacity-100 cursor-pointer">Guarda ▼</span>
+                    <span class="hover:opacity-100 cursor-pointer text-white border-b-2 border-white pb-1">Cadastros ▼</span>
+                </div>
+            </div>
+            <div class="text-white text-sm">
+                <span>👤 Usuário ▼</span>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container mx-auto py-8 px-4 md:px-6">
+        <div class="max-w-4xl mx-auto">
+            
+            <header class="mb-8">
+                <h2 class="text-2xl font-bold text-gray-800">Registro de Frequência</h2>
+                <p class="text-sm text-gray-400">Interface administrativa para controle de presença.</p>
+            </header>
+
+            <div class="bg-white rounded-lg shadow-lg border-b-4 border-[#1a174d] overflow-hidden">
+                <form class="p-6 md:p-10 space-y-8">
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="flex flex-col">
+                            <label class="text-xs font-black text-gray-400 uppercase mb-2 tracking-widest">Selecionar Guarda Mirim</label>
+                            <select class="w-full p-3 border border-gray-200 rounded-lg text-sm bg-white outline-none focus:border-blue-400 appearance-none">
+                                <option>----------</option>
+                            </select>
+                        </div>
+
+                        <div class="flex flex-col">
+                            <label class="text-xs font-black text-gray-400 uppercase mb-2 tracking-widest">Evento / Atividade</label>
+                            <select class="w-full p-3 border border-gray-200 rounded-lg text-sm bg-white outline-none focus:border-blue-400 appearance-none">
+                                <option>----------</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center justify-between bg-gray-50 p-4 rounded-xl border border-gray-100">
+                        <span class="text-sm font-bold text-gray-700">Validado por reconhecimento facial?</span>
+                        <input type="checkbox" class="w-5 h-5 rounded border-gray-300 accent-[#1a174d] cursor-pointer">
+                    </div>
+
+                    <div class="flex flex-col">
+                        <label class="text-xs font-black text-gray-400 uppercase mb-2 tracking-widest">Observações do Registro</label>
+                        <textarea rows="4" class="w-full p-4 border border-gray-200 rounded-lg text-sm outline-none focus:border-blue-400 resize-none" placeholder="Digite observações técnicas ou ocorrências..."></textarea>
+                    </div>
+
+                    <div class="pt-6 flex justify-end gap-3 border-t border-gray-50">
+                        <button type="button" class="bg-blue-600 text-white px-10 py-3 rounded-lg font-bold text-xs uppercase tracking-widest hover:bg-blue-700 transition-all shadow-md">
+                            Salvar Registro
+                        </button>
+                        <button type="button" class="bg-gray-500 text-white px-10 py-3 rounded-lg font-bold text-xs uppercase tracking-widest hover:bg-gray-600 transition-all shadow-md">
+                            Voltar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <footer class="mt-12 text-center text-gray-400 text-[10px] uppercase font-bold tracking-[0.2em]">
+        © 2026 GNSN · Sistema de Monitoramento de Frequência
+    </footer>
+
+</body>
+</html>
